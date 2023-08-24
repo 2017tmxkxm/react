@@ -7,6 +7,10 @@ import Todo from './Todo';
 function App() {
   const [items, setItems] = useState([]);
 
+  const editItem = () => {
+    setItems([...items]);
+  }
+
   const addItem = (item) => {
     item.id = "Id-" + items.length; // key를 위한 id
     item.done = false; // done 초기화
@@ -26,7 +30,7 @@ function App() {
     <Paper style={{ margin: 16 }}>
       <List>
         {items.map((item) => (
-          <Todo item={item} key={item.id} deleteItem={deleteItem} />
+          <Todo item={item} key={item.id} editItem={editItem} deleteItem={deleteItem} />
         ))}  
       </List>
     </Paper>
