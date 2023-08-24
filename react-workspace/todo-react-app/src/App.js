@@ -1,11 +1,29 @@
 import { Container, List, Paper } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddTodo from './AddTodo';
 import './App.css';
 import Todo from './Todo';
 
 function App() {
   const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+  
+    fetch("http://localhost:8080/todo", requestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          setItems(response.data);
+        },
+        (error) => {
+
+        }
+      )
+  }, []);
 
   const editItem = () => {
     setItems([...items]);
@@ -30,7 +48,12 @@ function App() {
     <Paper style={{ margin: 16 }}>
       <List>
         {items.map((item) => (
-          <Todo item={item} key={item.id} editItem={editItem} deleteItem={deleteItem} />
+          <Todo 
+            item={item} 
+            key={item.id} 
+            editItem={editItem} 
+            deleteItem={deleteItem} 
+          />
         ))}  
       </List>
     </Paper>
