@@ -10,20 +10,20 @@ const Todo = (props) => {
 
     // checkbox 업데이트
     const checkboxEventHandler = (e) => {
-        item.done = e.target.value;
-        editItem();
+        item.done = e.target.checked;
+        editItem(item);
     }
 
     // item 수정 함수
     const editEventHandler = (e) => {
-        item.title = e.target.value;
-        editItem();
+        setItem({...item, title:e.target.value});
     }
 
     // trunOnReadOnly > enterKeyEventHandler 함수
     const trunOnReadOnly = (e) => {
-        if(e.key === 'Enter') {
+        if(e.key === 'Enter' && readOnly === false) {
             setReadOnly(true);
+            editItem(item);
         }
     } 
 

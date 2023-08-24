@@ -1,5 +1,6 @@
 import { Container, List, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { call } from "./service/ApiService";
 import AddTodo from './AddTodo';
 import './App.css';
 import Todo from './Todo';
@@ -8,40 +9,23 @@ function App() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-  
-    fetch("http://localhost:8080/todo", requestOptions)
-      .then((response) => response.json())
-      .then(
-        (response) => {
-          setItems(response.data);
-        },
-        (error) => {
-
-        }
-      )
+    call("/todo", "GET", null)
+      .then((response) => setItems(response.data));
   }, []);
 
-  const editItem = () => {
-    setItems([...items]);
+  const editItem = (item) => {
+    call("/todo", "PUT", item)
+      .then((response) => setItems(response.data));
   }
 
   const addItem = (item) => {
-    item.id = "Id-" + items.length; // key를 위한 id
-    item.done = false; // done 초기화
-    // 업데이트는 반드시 setItems로 하고 새 배열을 만들어야 한다.
-    setItems([...items, item]);
-    console.log("items: ", items);
+    call("/todo", "POST", item)
+      .then((response) => setItems(response.data));
   }
 
   const deleteItem = (item) => {
-    // 삭제할 아이템을 찾는다.
-    const newItems = items.filter(e => e.id !== item.id);
-    // 삭제할 아이템을 제외한 아이템을 다시 배열에 저장한다.
-    setItems([...newItems]);
+    call("/todo", "DELETE", item)
+      .then((response) => setItems(response.data));
   }
 
   let todoItems = items.length > 0 && (
