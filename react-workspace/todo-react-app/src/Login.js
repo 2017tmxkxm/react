@@ -1,5 +1,5 @@
 import React from "react";
-import { singin } from "./service/ApiService";
+import { signin, singin } from "./service/ApiService";
 import { Container, Grid, TextField, Typography, Button } from "@mui/material";
 
 const Login = () => {
@@ -9,10 +9,10 @@ const Login = () => {
         const username = data.get("username");
         const password =data.get("password");
         // ApiService의 signin 메서드를 사용해 로그인
-        singin({ username: username, password: password});
+        signin({ username: username, password: password});
     }
     return (
-        <Container component="main" maxWidth="xs" style={{ margin: "8%"}}>
+        <Container component="main" maxWidth="xs" style={{ marginTop: "8%"}}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Typography component="h1" variant="h5">
