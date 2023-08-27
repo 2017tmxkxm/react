@@ -17,9 +17,24 @@ export function call(api, method, request) {
             .then((response) => {
                 if(response.status === 200) {
                     return response.json();
+                } else if(response.status === 403) {
+                    window.location.href = "/login";    // redirect
+                } else {
+                    Promise.reject(response);
+                    throw Error(response);
                 }
             }).catch((error) => {
                 console.log("http error");
                 console.log(error);
             })
+}
+
+export function singin(userDTO) {
+    return call("/auth/signin", "POST", userDTO)
+        .then((response) => {
+            if(response.token) {
+                // token이 존재하는 경우 Todo 화면으로 리다이렉트
+                window.location.href = "/";
+            }
+        });
 }
